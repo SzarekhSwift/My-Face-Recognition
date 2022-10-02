@@ -20,7 +20,7 @@ if __name__ == '__main__':
     #захват видеопотока
     cap = cv2.VideoCapture(0)
     
-    #путь хранения каскаов Хаара
+    #путь хранения каскадов Хаара
     cascade_path = "./haarcascades/haarcascade_frontalface_alt2.xml"  
     
     #обнаружение лица
