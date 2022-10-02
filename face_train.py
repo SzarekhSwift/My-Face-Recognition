@@ -165,7 +165,7 @@ class Model:
                                                 epochs = epochs,
                                                 validation_data = (dataset.valid_images, dataset.valid_labels))    
     
-    MODEL_PATH = './my.face.model.h5'
+    MODEL_PATH = './model/me.face.model.h5'
     def save_model(face, file_path = MODEL_PATH):
          face.model.save(file_path)
  
