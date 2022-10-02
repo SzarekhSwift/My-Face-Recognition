@@ -65,12 +65,11 @@ def load_dataset(path_name):
     images,labels = read_path(path_name)    
     
     # Преобразуем все входные изображения в четырехмерный массив, размер (количество изображений * IMAGE_SIZE * IMAGE_SIZE * 3)
-    # Всего 1000 изображений, а IMAGE_SIZE - 64, поэтому размер для меня 1200 * 64 * 64 * 3
     # Картинка 64 * 64 пикселя, у одного пикселя 3 значения цвета (RGB)
     images = np.array(images)
     print(images.shape)    
     
-    # Данные аннотации, в папке 'data' находятся все мои изображения лиц, все обозначены как 0, другая папка находится под одноклассником, все обозначены как 1
+    # Данные аннотации, в папке 'data' находятся все изображения лиц, все обозначены как 0, другая папка находится там же, все обозначены как 1
     labels = np.array([0 if label.endswith('Mark') else 1 for label in labels])
     #labels = np.array(labels)   
     
@@ -80,4 +79,4 @@ if __name__ == '__main__':
     if len(sys.argv) != 1:
         print("Usage:%s path_name\r\n" % (sys.argv[0]))    
     else:
-        images, labels = load_dataset('../new/data') #"../new/data"
+        images, labels = load_dataset('./data') 
