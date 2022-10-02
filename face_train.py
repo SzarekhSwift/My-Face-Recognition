@@ -37,7 +37,7 @@ class Dataset:
         # Порядок размеров, используемых текущей библиотекой
         face.input_shape = None
         
-    # Загрузить набор данных и разделить набор данных по принципу перекрестной проверки и выполнить соответствующую предварительную обработку
+    # Загрузить и разделить набор данных по принципу перекрестной проверки и выполнить соответствующую предварительную обработку
     def load(face, img_rows = IMAGE_SIZE, img_cols = IMAGE_SIZE, img_channels = 3, nb_classes = 2):
         # Загрузить набор данных в память
         images, labels = load_dataset(face.path_name)        
@@ -46,7 +46,6 @@ class Dataset:
         _, test_images, _, test_labels = train_test_split(images, labels, test_size = 0.5, random_state = random.randint(0, 100))                
         
         # Если текущий порядок измерений - это 'th', порядок ввода данных изображения следующий: каналы, строки, столбцы, иначе: строки, столбцы, каналы
-        # Эта часть кода предназначена для реорганизации набора обучающих данных в соответствии с порядком измерений, требуемым библиотекой keras
         if K.image_data_format() == 'th':
             train_images = train_images.reshape(train_images.shape[0], img_channels, img_rows, img_cols)
             valid_images = valid_images.reshape(valid_images.shape[0], img_channels, img_rows, img_cols)
@@ -64,7 +63,6 @@ class Dataset:
             print(test_images.shape[0], 'test samples')
         
             # Наша модель использует category_crossentropy в качестве функции потерь, поэтому она должна быть основана на количестве категорий nb_classes
-            #Category метка векторизуется методом однократного кодирования. Здесь всего две категории. После преобразования данные метки становятся двумерными.
             train_labels = np_utils.to_categorical(train_labels, nb_classes)                        
             valid_labels = np_utils.to_categorical(valid_labels, nb_classes)            
             test_labels = np_utils.to_categorical(test_labels, nb_classes)                        
@@ -91,12 +89,11 @@ class Model:
     def __init__(face):
         face.model = None 
         
-    # Моделирование
+    # Постройка модели
     def build_model(face, dataset, nb_classes = 2):
-        # Создайте пустую сетевую модель, это линейная модель с накоплением, каждый слой нейронной сети будет добавлен последовательно, профессиональное название - последовательная модель или линейная модель с накоплением
         face.model = Sequential() 
         
-        # Следующий код будет последовательно добавлять уровни, необходимые для сети CNN, добавление - это сетевой уровень
+        # Следующий код будет последовательно добавлять уровни, необходимые для сети CNN
         face.model.add(Conv2D(filters=32, kernel_size=3, padding='same', input_shape = dataset.input_shape, data_format='channels_last'))    # 1 2-мерный сверточный слой
         face.model.add(Activation('relu'))                                  # 2 слой функции активации
         
@@ -158,7 +155,7 @@ class Model:
                 horizontal_flip = True,                 # Выполнять ли случайный переворот по горизонтали
                 vertical_flip = True)                  # Выполнять ли случайный вертикальный переворот
  
-            # Вычислить количество всего набора обучающих выборок для нормализации значений характеристик, отбеливания ZCA и т. Д.
+            # Вычислить количество всего набора обучающих выборок 
             datagen.fit(dataset.train_images)                        
  
             # Используйте генератор, чтобы начать обучение модели
@@ -189,11 +186,9 @@ class Model:
             image = resize_image(image)
             image = image.reshape((1, IMAGE_SIZE, IMAGE_SIZE, 3))                    
         
-        #плавать и нормализовать
         image = image.astype('float32')
         image /= 255
         
-        #Учитывая вероятность того, что входное изображение принадлежит каждой категории, мы являемся бинарной категорией, тогда функция даст вероятность того, что входное изображение принадлежит 0 и 1
         result = face.model.predict(image)
         print('result:', result)
         
