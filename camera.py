@@ -6,7 +6,7 @@ from PIL import Image
 def CatchPICFromVideo(window_name, camera_idx, catch_pic_num, path_name):
     cv2.namedWindow(window_name)
     
-    # Источник видео, это может быть сохраненное видео или прямо с USB-камеры
+    # Источник видео
     cap = cv2.VideoCapture(camera_idx)                
     
     # Сообщите OpenCV использовать классификатор распознавания лиц
@@ -23,7 +23,7 @@ def CatchPICFromVideo(window_name, camera_idx, catch_pic_num, path_name):
     
         grey = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)  # Преобразовать изображение текущего кадра в изображение в оттенках серого 
         
-        # Обнаружение лица, 1,2 и 2 - это коэффициент масштабирования изображения и эффективное количество обнаруживаемых точек соответственно.
+        # Обнаружение лица, 1,2 и 3 - это коэффициент масштабирования изображения и эффективное количество обнаруживаемых точек соответственно.
         faceRects = classfier.detectMultiScale(grey, scaleFactor = 1.2, minNeighbors = 3, minSize = (32, 32))
         if len(faceRects) > 0:          # Больше 0, распознается человеческое лицо 
             for faceRect in faceRects:  # Создайте рамку для каждого лица отдельно
@@ -54,7 +54,6 @@ def CatchPICFromVideo(window_name, camera_idx, catch_pic_num, path_name):
         if c & 0xFF == ord('q'):
             break        
     
-    # Отпустить камеру и уничтожить все окна
     cap.release()
     cv2.destroyAllWindows() 
     
