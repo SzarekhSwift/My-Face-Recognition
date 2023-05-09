@@ -80,4 +80,4 @@ if __name__ == '__main__':
     if len(sys.argv) != 1:
         print("Usage:%s path_name\r\n" % (sys.argv[0]))    
     else:
-        images, labels = load_dataset('../new/data') #"../new/data"
+        images, labels = load_dataset('E:/Doc/GitClone/My-Face-Recognition/data') #"../new/data"
