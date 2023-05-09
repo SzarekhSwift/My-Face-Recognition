@@ -10,7 +10,7 @@ def CatchPICFromVideo(window_name, camera_idx, catch_pic_num, path_name):
     cap = cv2.VideoCapture(camera_idx)                
     
     # Сообщите OpenCV использовать классификатор распознавания лиц
-    classfier = cv2.CascadeClassifier('../new/haarcascades/haarcascade_frontalface_alt2.xml')
+    classfier = cv2.CascadeClassifier('E:/Doc/GitClone/My-Face-Recognition/haarcascades/haarcascade_frontalface_alt2.xml')
     
     # Цвет рамки, которая будет нарисована после распознавания лица, формат RGB
     color = (0, 255, 0)
